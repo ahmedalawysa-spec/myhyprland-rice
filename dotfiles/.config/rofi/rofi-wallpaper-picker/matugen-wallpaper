@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+# Random transition types supported by swww
+TRANSITIONS=("simple" "fade" "left" "right" "top" "bottom" "wipe" "grow" "center" "outer" "random" "wave")
+RANDOM_TRANSITION=$(printf "%s\n" "${TRANSITIONS[@]}" | shuf -n 1)
+
+# The image path comes from Matugen
+IMAGE_PATH="$1"
+
+# Run swww directly with your desired FPS and random transition
+swww img "$IMAGE_PATH" \
+  --transition-type "$RANDOM_TRANSITION" \
+  --transition-fps 180 \
+  --transition-duration 1
+
+# Also trigger Matugen templates update (so colors change)
+matugen image "$IMAGE_PATH" --no-wallpaper
