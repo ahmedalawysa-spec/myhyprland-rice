@@ -3,6 +3,10 @@ command = "/home/vni/.config/rofi/rofi-wallpaper-picker/matugen-wallpaper"
 arguments = []
 set = true
 
+[templates.hyprland]
+input_path = './templates/hyprland-colors.conf'
+output_path = '~/.config/hypr/colors.conf'
+post_hook = 'hyprctl reload'
 
 [templates.waybar]
 input_path = './templates/colors.css'
@@ -16,3 +20,4 @@ post_hook = 'pkill -SIGUSR1 kitty'
 [templates.rofi]
 input_path = './templates/rofi-colors.rasi'
 output_path = '~/.config/rofi/colors.rasi'
+
