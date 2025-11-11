@@ -29,3 +29,23 @@ post_hook = 'pywalfox update'
 [templates.vesktop]
 input_path = './templates/midnight-discord.css'
 output_path = '~/.config/vesktop/themes/midnight-discord.css'
+
+[templates.gtk3]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+
+[templates.gtk4]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+post_hook = '/home/vni/Projects/myhyprland-rice/scripts/reload-gtk-apps.sh'
+
+[templates.btop]
+input_path = './templates/btop.theme'
+output_path = '~/.config/btop/themes/matugen.theme'
+post_hook = '/home/vni/Projects/myhyprland-rice/scripts/btop-reload.sh'
+
+[templates.alacritty]
+input_path = './templates/alacritty.toml'
+output_path = '~/.config/alacritty/colors.toml'
+post_hook = '/home/vni/Projects/myhyprland-rice/scripts/spotify.sh'
