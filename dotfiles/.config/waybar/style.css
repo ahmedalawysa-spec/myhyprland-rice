@@ -2,6 +2,7 @@
 @import "colors.css";
 
 * {
+  /* background: transparent; */
   background-color: @primary_container;
   color: white;
 
