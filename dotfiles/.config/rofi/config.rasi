@@ -111,4 +111,6 @@ element-text {
 
 //@theme "/home/@home/vni/.config/rofi/themes/rounded-green-dark.rasi"
 
-@theme "/home/vni/.config/rofi/themes/rounded-nord-dark.rasi"
+//@theme "/home/vni/.config/rofi/themes/rounded-nord-dark.rasi"
+
+@theme "/home/vni/.config/rofi/themes/rounded-purple-dark.rasi"
