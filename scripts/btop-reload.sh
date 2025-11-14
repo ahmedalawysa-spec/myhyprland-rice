@@ -6,5 +6,5 @@ if pgrep -x btop >/dev/null; then
     pkill -SIGUSR2 btop
 else
     echo "🚀 btop not running, starting it now..."
-    btop &
+    kitty -e btop &
 fi

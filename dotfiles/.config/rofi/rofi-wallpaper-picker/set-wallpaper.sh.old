@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# -------------------------------
+# Rofi Wallpaper Picker (معدل)
+# -------------------------------
+
+# ----- إعدادات -----
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers/"
+IMAGE_PICKER_CONFIG="$HOME/.config/rofi/rofi-wallpaper-picker/image-picker.razi"
+
+# ----- تأكد إن swww daemon شغال -----
+if ! pgrep -x swww >/dev/null; then
+    echo "💡 Starting swww daemon..."
+    swww daemon &
+    sleep 0.5  # صغير للثبات
+fi
+
+# ----- العثور على جميع الصور -----
+WALLPAPER_FILES=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \))
+
+# ----- تحديد الخلفية الحالية -----
+CURRENT_WALLPAPER_FILE=""
+if swww query &>/dev/null; then
+    CURRENT_WALLPAPER_FILE=$(basename "$(swww query | awk '{print $NF}')")
+fi
+
+# ----- بناء قائمة rofi -----
+ROFI_MENU=""
+while IFS= read -r WALLPAPER_PATH; do
+    WALLPAPER_NAME=$(basename "$WALLPAPER_PATH")
+    if [[ "$WALLPAPER_NAME" == "$CURRENT_WALLPAPER_FILE" ]]; then
+        ROFI_MENU+="${WALLPAPER_NAME} (current)\0icon\x1f${WALLPAPER_PATH}\n"
+    else
+        ROFI_MENU+="${WALLPAPER_NAME}\0icon\x1f${WALLPAPER_PATH}\n"
+    fi
+done <<<"$WALLPAPER_FILES"
+
+# ----- اختيار الخلفية من rofi -----
+SELECTED_WALLPAPER=$(echo -e "$ROFI_MENU" | rofi -dmenu \
+    -p "Select Wallpaper:" \
+    -theme "$IMAGE_PICKER_CONFIG" \
+    -markup-rows)
+
+SELECTED_WALLPAPER_NAME=$(echo "$SELECTED_WALLPAPER" | sed 's/ (current)//')
+
+# ----- تطبيق الخلفية بسرعة -----
+if [[ -n "$SELECTED_WALLPAPER_NAME" ]]; then
+    SELECTED_PATH="$WALLPAPER_DIR/$SELECTED_WALLPAPER_NAME"
+    echo "🖼 Applying wallpaper: $SELECTED_WALLPAPER_NAME"
+    swww img "$SELECTED_PATH" --transition-type any --transition-fps 60 --transition-duration 0.7
+fi
+
+# ----- تحديث matugen و spicetify اختياري -----
+read -p "🔧 Update system/theme colors with matugen & spicetify? [y/N]: " UPDATE_THEME
+if [[ "$UPDATE_THEME" =~ ^[Yy]$ ]]; then
+    # matugen
+    if command -v matugen &>/dev/null; then
+        echo "🎨 Updating matugen theme..."
+        matugen image "$SELECTED_PATH"
+    fi
+    # spicetify
+    if command -v spicetify &>/dev/null; then
+        echo "🎵 Applying spicetify theme..."
+        spicetify apply
+    fi
+fi
+
+# ----- btop اختياري في terminal -----
+read -p "📊 Launch btop in terminal? [y/N]: " LAUNCH_BTOP
+if [[ "$LAUNCH_BTOP" =~ ^[Yy]$ ]]; then
+    if pgrep -x btop >/dev/null; then
+        echo "🔁 Reloading btop theme..."
+        pkill -SIGUSR2 btop
+    else
+        echo "🚀 Starting btop in terminal..."
+        # عدّل terminal حسب اللي تستخدمه (kitty, alacritty, foot, etc.)
+        kitty -e btop &
+    fi
+fi

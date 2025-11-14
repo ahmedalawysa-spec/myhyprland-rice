@@ -1,55 +1,69 @@
+# Wallpaper configuration
+# Disabled because set-wallpaper.sh handles swww directly
+# This prevents duplicate matugen calls and improves performance
 [config.wallpaper]
-command = "/home/vni/.config/rofi/rofi-wallpaper-picker/matugen-wallpaper"
-arguments = []
-set = true
+# command = "/home/vni/.config/rofi/rofi-wallpaper-picker/matugen-wallpaper"
+# arguments = []
+set = false  # Important: prevents matugen from applying wallpaper
 
+# Hyprland color configuration
 [templates.hyprland]
 input_path = './templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
 post_hook = 'hyprctl reload'
 
+# Waybar color configuration
 [templates.waybar]
 input_path = './templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
 
+# Kitty terminal color configuration
 [templates.kitty]
 input_path = './templates/kitty-colors.conf'
 output_path = '~/.config/kitty/colors.conf'
 post_hook = 'pkill -SIGUSR1 kitty'
 
+# Rofi launcher color configuration
 [templates.rofi]
 input_path = './templates/rofi-colors.rasi'
 output_path = '~/.config/rofi/colors.rasi'
 
+# Pywalfox browser theme configuration
 [templates.pywalfox]
 input_path = './templates/pywalfox-colors.json'
 output_path = '~/.cache/wal/colors.json'
 post_hook = 'pywalfox update'
 
+# Vesktop/Discord theme configuration
 [templates.vesktop]
 input_path = './templates/midnight-discord.css'
 output_path = '~/.config/vesktop/themes/midnight-discord.css'
 
+# GTK3 theme configuration
 [templates.gtk3]
 input_path = './templates/gtk-colors.css'
 output_path = '~/.config/gtk-3.0/colors.css'
 post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
 
+# GTK4 theme configuration
 [templates.gtk4]
 input_path = './templates/gtk-colors.css'
 output_path = '~/.config/gtk-4.0/colors.css'
 post_hook = '/home/vni/Projects/myhyprland-rice/scripts/reload-gtk-apps.sh'
 
+# Btop system monitor theme configuration
 [templates.btop]
 input_path = './templates/btop.theme'
 output_path = '~/.config/btop/themes/matugen.theme'
 post_hook = '/home/vni/Projects/myhyprland-rice/scripts/btop-reload.sh'
 
+# Alacritty terminal color configuration
 [templates.alacritty]
 input_path = './templates/alacritty.toml'
 output_path = '~/.config/alacritty/colors.toml'
 post_hook = '/home/vni/Projects/myhyprland-rice/scripts/spotify.sh'
 
+# Wlogout color configuration
 [templates.wlogout]
 input_path = './templates/colors.css'
 output_path = '~/.config/wlogout/colors.css'
